@@ -1,0 +1,39 @@
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
+class ConfirmationActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_confirmation)
+
+        val tvFullName: TextView = findViewById(R.id.tvFullName)
+        val tvBirthDate: TextView = findViewById(R.id.tvBirthDate)
+        val tvPhone: TextView = findViewById(R.id.tvPhone)
+        val tvEmail: TextView = findViewById(R.id.tvEmail)
+        val tvContactDescription: TextView = findViewById(R.id.tvContactDescription)
+
+        val btnEditData: Button = findViewById(R.id.btnEditData)
+        btnEditData.setOnClickListener {
+            editData()
+        }
+
+        val intent = intent
+        if (intent != null) {
+            tvFullName.text = intent.getStringExtra("FULL_NAME")
+            tvBirthDate.text = intent.getStringExtra("BIRTH_DATE")
+            tvPhone.text = intent.getStringExtra("PHONE")
+            tvEmail.text = intent.getStringExtra("EMAIL")
+            tvContactDescription.text = intent.getStringExtra("CONTACT_DESCRIPTION")
+        }
+    }
+
+    private fun editData() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+}

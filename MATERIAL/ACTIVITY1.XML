@@ -1,0 +1,56 @@
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.TextInputEditText
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var etFullName: TextInputEditText
+    private lateinit var etBirthDate: TextInputEditText
+    private lateinit var etPhone: TextInputEditText
+    private lateinit var etEmail: TextInputEditText
+    private lateinit var etContactDescription: TextInputEditText
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        etFullName = findViewById(R.id.etFullName)
+        etBirthDate = findViewById(R.id.etBirthDate)
+        etPhone = findViewById(R.id.etPhone)
+        etEmail = findViewById(R.id.etEmail)
+        etContactDescription = findViewById(R.id.etContactDescription)
+
+        etBirthDate.setOnClickListener {
+            showDatePicker()
+        }
+
+        val btnNext: Button = findViewById(R.id.btnNext)
+        btnNext.setOnClickListener {
+            goToConfirmationActivity()
+        }
+    }
+
+    private fun showDatePicker() {
+        val builder = MaterialDatePicker.Builder.datePicker()
+        val picker = builder.build()
+        picker.show(supportFragmentManager, picker.toString())
+
+        picker.addOnPositiveButtonClickListener {
+            etBirthDate.setText(picker.headerText)
+        }
+    }
+
+    private fun goToConfirmationActivity() {
+        val intent = Intent(this, ConfirmationActivity::class.java)
+        intent.putExtra("FULL_NAME", etFullName.text.toString())
+        intent.putExtra("BIRTH_DATE", etBirthDate.text.toString())
+        intent.putExtra("PHONE", etPhone.text.toString())
+        intent.putExtra("EMAIL", etEmail.text.toString())
+        intent.putExtra("CONTACT_DESCRIPTION", etContactDescription.text.toString())
+        startActivity(intent)
+    }
+}
